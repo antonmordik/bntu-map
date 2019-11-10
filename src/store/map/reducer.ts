@@ -25,10 +25,12 @@ export default handleActions<IMapState>(
     [loadDotsSuccess.toString()]: (state, { payload }: Action<{ dots: IDot[] }>) => ({
       ...state,
       dots: payload.dots,
+      loading: false,
     }),
     [loadDotsError.toString()]: (state, { payload }: Action<{ error: IError | null }>) => ({
       ...state,
       error: payload.error,
+      loading: false,
     }),
   },
   INIT_STATE,
