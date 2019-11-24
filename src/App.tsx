@@ -3,18 +3,19 @@ import { useDispatch } from 'react-redux';
 
 import './App.css';
 
-import Button from './components/Button/Button';
-import { loadDots } from './store/map/actions';
+import Map from './components/Map/Map';
+import { loadDots, loadLines } from './store/map/actions';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadDots());
+    dispatch(loadLines());
   });
 
   return (
     <div className="app">
-      <Button disabled>Click</Button>
+      <Map />
     </div>
   );
 };

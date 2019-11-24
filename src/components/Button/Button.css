@@ -5,4 +5,9 @@
   cursor: pointer;
   background: linear-gradient(90deg, rgb(16, 108, 206), rgb(82, 40, 181));
   color: rgb(255, 255, 255);
+  transition: .4s;
+}
+
+.mk-btn:hover {
+  opacity: .9;
 }

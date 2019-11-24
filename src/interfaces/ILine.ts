@@ -1,6 +1,6 @@
 import { IDot } from './IDot';
 
 export interface ILine {
-  dots: [IDot, IDot];
-  name: string;
+  id: string;
+  data: any;
 }

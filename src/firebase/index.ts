@@ -1,4 +1,6 @@
 import firebase from 'firebase/app';
+
+import { ILine } from './../interfaces/ILine';
 import 'firebase/database';
 import 'firebase/firestore';
 
@@ -26,6 +28,22 @@ class Firebase {
         })
         .catch((error) => console.log(error))) || []
     );
+  }
+
+  async getLines(): Promise<ILine[]> {
+    return await Firebase.app
+      .firestore()
+      .collection(Firebase.LINE_COLLECTION)
+      .get()
+      .then((snapshot) => {
+        const lines: ILine[] = [];
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          const line: ILine = { id: doc.id, data };
+          lines.push(line);
+        });
+        return lines;
+      });
   }
 }
 
