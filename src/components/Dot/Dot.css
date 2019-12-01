@@ -1,0 +1,18 @@
+.dot {
+  cursor: pointer;
+  stroke: #444444;
+  fill: #444444;
+  transition: .5s;
+}
+
+.dot:hover {
+  stroke: #444444;
+  fill: #d2ff00;
+}
+
+.dot-selected {
+  cursor: pointer;
+  stroke: #444444;
+  fill: #d2ff00;
+  transition: .5s;
+}

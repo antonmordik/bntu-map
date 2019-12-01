@@ -13,4 +13,6 @@ const store = createStore(reducer, composeWithDevTools(getEnhancers()));
 
 sagaMiddleware.run(saga);
 
+export type IGlobalState = ReturnType<typeof reducer>;
+
 export { store };

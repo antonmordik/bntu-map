@@ -1,9 +1,9 @@
 import firebase from 'firebase/app';
 
-import { ILine } from './../interfaces/ILine';
 import 'firebase/database';
 import 'firebase/firestore';
 
+import { ILine, ILineData } from './../interfaces/ILine';
 import { IDot } from './../interfaces/IDot';
 import config from './config';
 
@@ -22,7 +22,12 @@ class Firebase {
           const dots: IDot[] = [];
           snapshot.forEach((doc) => {
             const coordinates = doc.data();
-            dots.push({ id: doc.id, x: coordinates.x, y: coordinates.y });
+            dots.push({
+              id: doc.id,
+              x: coordinates.x,
+              y: coordinates.y,
+              selectable: coordinates.selectable || false,
+            });
           });
           return dots;
         })
@@ -38,7 +43,7 @@ class Firebase {
       .then((snapshot) => {
         const lines: ILine[] = [];
         snapshot.forEach((doc) => {
-          const data = doc.data();
+          const data = doc.data() as ILineData;
           const line: ILine = { id: doc.id, data };
           lines.push(line);
         });
