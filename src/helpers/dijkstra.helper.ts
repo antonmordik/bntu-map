@@ -1,7 +1,6 @@
 export const processLines = (lines: any) => {
   const result: any = {};
   lines.forEach((line: any) => {
-    //TODO: make graph not-oriented
     result[line.dots[0].id] = result[line.dots[0].id]
       ? { ...result[line.dots[0].id], [line.dots[1].id]: line.distance }
       : { [line.dots[1].id]: line.distance };
@@ -15,7 +14,7 @@ export const processLines = (lines: any) => {
   return result;
 };
 
-export const dijkstra = (graph: any, from: any, to: any) => {
+export const dijkstra = (graph: any, from: any, to: any): { distance: number; path: string[] } => {
   const work = { ...graph };
   const findMin = (work: any) => {
     const firstElArr = [];
@@ -59,12 +58,12 @@ export const dijkstra = (graph: any, from: any, to: any) => {
   }
   const result = {
     distance: work[to].length,
-    path: [Number(to)],
+    path: [to],
   };
   let actual = to;
   while (actual !== from) {
     actual = work[actual].prev;
-    result.path.push(Number(actual));
+    result.path.push(actual);
   }
   result.path = result.path.reverse();
   return result;

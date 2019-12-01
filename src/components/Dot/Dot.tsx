@@ -2,11 +2,12 @@ import React from 'react';
 
 import './Dot.css';
 import { IDot } from '../../interfaces/IDot';
+import { Colors } from '../../defs/colors';
 
 interface IDotProps {
   dot: IDot;
   onClick: (event: React.MouseEvent<SVGCircleElement, MouseEvent>) => void;
-  selected: boolean;
+  selected: string;
 }
 
 const Dot: React.FC<IDotProps> = ({ dot, onClick, selected }) => {
@@ -19,7 +20,7 @@ const Dot: React.FC<IDotProps> = ({ dot, onClick, selected }) => {
       strokeWidth={1}
       // fill={'#d2ff00'}
       onClick={onClick}
-      className={selected ? 'dot-selected' : 'dot'}
+      className={selected !== Colors.TRANSPARENT ? 'dot-selected' : 'dot'}
     />
   );
 };

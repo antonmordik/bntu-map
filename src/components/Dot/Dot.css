@@ -7,12 +7,12 @@
 
 .dot:hover {
   stroke: #444444;
-  fill: #d2ff00;
+  fill: url('#gradient');
 }
 
 .dot-selected {
   cursor: pointer;
   stroke: #444444;
-  fill: #d2ff00;
+  fill: url('#gradient');
   transition: .5s;
 }

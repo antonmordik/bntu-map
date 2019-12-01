@@ -11,6 +11,9 @@ import { getDistance } from '../../helpers/distance.helper';
 import Dot from '../Dot/Dot';
 import Button from '../Button/Button';
 import { dijkstra, processLines } from '../../helpers/dijkstra.helper';
+import Path from '../Path/Path';
+import { Colors } from '../../defs/colors';
+import Buildings from '../Buildings/Buildings';
 
 const Map: React.FC = () => {
   const lines: IProcessedLine[] = useSelector((state: IGlobalState) => {
@@ -27,15 +30,19 @@ const Map: React.FC = () => {
     });
   });
 
+  const dots: IDot[] = useSelector((state: IGlobalState) => state.map.dots);
+
   const selectableDots: IDot[] = useSelector((state: IGlobalState) =>
     state.map.dots.filter((dot) => dot.selectable),
   );
 
   const [from, setFrom] = useState<IDot | null>(null);
   const [to, setTo] = useState<IDot | null>(null);
+  const [activePath, setActivePath] = useState<string | null>(null);
 
   const onDotSelect = useCallback(
     (dot: IDot) => {
+      setActivePath(null);
       if (from && to) {
         setFrom(dot);
         setTo(null);
@@ -51,15 +58,35 @@ const Map: React.FC = () => {
   const onDijkstraClick = useCallback(() => {
     if (from && to) {
       const graph = processLines(lines);
-      console.log(graph);
       const result = dijkstra(graph, from.id, to.id);
-      console.log(result);
+      const path = result.path
+        .map((dotId) => {
+          const dot = dots.find((dot) => dot.id === dotId);
+          return dot ? `${dot.x},${dot.y}` : '';
+        })
+        .filter((coordinates) => !!coordinates)
+        .join(' ');
+      setActivePath(path);
     }
-  }, [from, to, lines]);
+  }, [from, to, lines, dots]);
 
   return (
     <div className="map">
       <svg viewBox="0 0 400 300" width="800" height="600">
+        <defs>
+          <linearGradient
+            id="gradient"
+            x1="0"
+            y1="100%"
+            x2="100%"
+            y2="0"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0%" stopColor={Colors.BLUE} />
+            <stop offset="50%" stopColor={Colors.SKY_BLUE} />
+            <stop offset="100%" stopColor={Colors.GREEN} />
+          </linearGradient>
+        </defs>
         {lines.map((line) => (
           <Line line={line} key={line.id} />
         ))}
@@ -69,13 +96,32 @@ const Map: React.FC = () => {
             dot={dot}
             key={dot.id}
             onClick={() => onDotSelect(dot)}
-            selected={[from, to]
-              .filter((el) => !!el)
-              .map((el) => el && el.id)
-              .includes(dot.id)}
+            selected={
+              from
+                ? from.id === dot.id
+                  ? Colors.BLUE
+                  : to
+                  ? to.id === dot.id
+                    ? Colors.GREEN
+                    : Colors.TRANSPARENT
+                  : Colors.TRANSPARENT
+                : Colors.TRANSPARENT
+            }
           />
         ))}
+        <Path path={activePath} />
+        <Buildings />
       </svg>
+      <div>
+        <div>
+          <div />
+          <p>From</p>
+        </div>
+        <div>
+          <div />
+          <p>To</p>
+        </div>
+      </div>
       <Button onClick={onDijkstraClick}>Dijkstra</Button>
     </div>
   );
