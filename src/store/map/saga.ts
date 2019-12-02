@@ -2,9 +2,18 @@ import { takeEvery, put, call } from 'redux-saga/effects';
 
 import Firebase from '../../firebase';
 
+import { IBuilding } from './../../interfaces/IBuilding';
 import { ILine } from './../../interfaces/ILine';
 import { IDot } from './../../interfaces/IDot';
-import { loadDotsSuccess, loadDots, loadError, loadLinesSuccess, loadLines } from './actions';
+import {
+  loadDotsSuccess,
+  loadDots,
+  loadError,
+  loadLinesSuccess,
+  loadLines,
+  loadBuildingsSuccess,
+  loadBuildings,
+} from './actions';
 
 function* loadDotsSaga() {
   try {
@@ -24,7 +33,17 @@ function* loadLinesSaga() {
   }
 }
 
+function* loadBuildingsSaga() {
+  try {
+    const buildings: IBuilding[] = yield call(Firebase.getBuildings);
+    yield put(loadBuildingsSuccess({ buildings }));
+  } catch (error) {
+    yield put(loadError({ error }));
+  }
+}
+
 export default function*() {
   yield takeEvery(loadDots, loadDotsSaga);
   yield takeEvery(loadLines, loadLinesSaga);
+  yield takeEvery(loadBuildings, loadBuildingsSaga);
 }

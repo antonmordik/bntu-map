@@ -4,13 +4,14 @@ import { useDispatch } from 'react-redux';
 import './App.css';
 
 import Map from './components/Map/Map';
-import { loadDots, loadLines } from './store/map/actions';
+import { loadDots, loadLines, loadBuildings } from './store/map/actions';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadDots());
     dispatch(loadLines());
+    dispatch(loadBuildings());
   });
 
   return (

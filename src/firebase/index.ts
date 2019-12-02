@@ -3,6 +3,7 @@ import firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/firestore';
 
+import { IBuilding } from './../interfaces/IBuilding';
 import { ILine, ILineData } from './../interfaces/ILine';
 import { IDot } from './../interfaces/IDot';
 import config from './config';
@@ -11,6 +12,7 @@ class Firebase {
   static app: firebase.app.App = firebase.initializeApp(config);
   static readonly DOT_COLLECTION: string = 'dots';
   static readonly LINE_COLLECTION: string = 'lines';
+  static readonly BUILDING_COLLECTION: string = 'buildings';
 
   async getDots(): Promise<IDot[]> {
     return (
@@ -48,6 +50,23 @@ class Firebase {
           lines.push(line);
         });
         return lines;
+      });
+  }
+
+  async getBuildings(): Promise<IBuilding[]> {
+    return await Firebase.app
+      .firestore()
+      .collection(Firebase.BUILDING_COLLECTION)
+      .get()
+      .then((snapshot) => {
+        const buildings: IBuilding[] = [];
+
+        snapshot.forEach((doc) => {
+          const building = doc.data() as IBuilding;
+          buildings.push({ id: doc.id, ...building });
+        });
+
+        return buildings;
       });
   }
 }
