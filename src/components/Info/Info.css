@@ -1,0 +1,42 @@
+.info {
+  transition: .5s;
+  height: 200px;
+  display: grid;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.visible {
+  opacity: 1;
+}
+
+.invisible {
+  opacity: 1;
+}
+
+.invisible .inner .content {
+  visibility: hidden;
+}
+
+.inner {
+  transition: .5s;
+}
+
+.visible .inner {
+  box-sizing: border-box;
+  box-shadow: 0 10px 20px rgba(31, 162, 255, 0.7);
+  width: 600px;
+  height: 150px;
+  padding: 20px 40px;
+  border-radius: 10px;
+  border: 2px dashed #fff;
+}
+
+.invisible .inner {
+  box-sizing: border-box;
+  width: 600px;
+  height: 150px;
+  padding: 20px 40px;
+  border-radius: 10px;
+  border: 2px dashed #000;
+}

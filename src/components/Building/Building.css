@@ -1,0 +1,7 @@
+.building {
+  cursor: not-allowed;
+}
+
+.clickable {
+  cursor: pointer;
+}

@@ -1,16 +1,13 @@
 .map {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-template-rows: 1fr max-content;
   width: 800px;
   align-items: center;
   justify-content: center;
 }
 
-.map svg {
-  grid-column: 1 / 3;
-}
-
 .map button {
-  grid-column: 2;
+  width: 400px;
+  margin: auto;
 }

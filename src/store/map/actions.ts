@@ -8,6 +8,7 @@ export const {
   loadBuildings,
   loadBuildingsSuccess,
   loadError,
+  setActiveBuilding,
 } = createActions(
   'LOAD_DOTS',
   'LOAD_DOTS_SUCCESS',
@@ -16,4 +17,5 @@ export const {
   'LOAD_BUILDINGS',
   'LOAD_BUILDINGS_SUCCESS',
   'LOAD_ERROR',
+  'SET_ACTIVE_BUILDING',
 );

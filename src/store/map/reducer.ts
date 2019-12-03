@@ -1,7 +1,6 @@
 import { Action, handleActions } from 'redux-actions';
 
-import { IBuilding } from '../../interfaces/IBuilding';
-
+import { IBuilding } from './../../interfaces/IBuilding';
 import { IError } from './../../interfaces/IError';
 import { ILine } from './../../interfaces/ILine';
 import { IDot } from './../../interfaces/IDot';
@@ -13,6 +12,7 @@ import {
   loadBuildings,
   loadBuildingsSuccess,
   loadError,
+  setActiveBuilding,
 } from './actions';
 
 interface IMapState {
@@ -20,6 +20,7 @@ interface IMapState {
   dots: IDot[];
   lines: ILine[];
   buildings: IBuilding[];
+  activeBuilding: IBuilding | null;
   error: IError | null;
 }
 
@@ -28,6 +29,7 @@ const INIT_STATE: IMapState = {
   dots: [],
   lines: [],
   buildings: [],
+  activeBuilding: null,
   error: null,
 };
 
@@ -66,6 +68,13 @@ export default handleActions<IMapState>(
       ...state,
       error: payload.error,
       loading: false,
+    }),
+    [setActiveBuilding.toString()]: (
+      state,
+      { payload }: Action<{ activeBuilding: IBuilding | null }>,
+    ) => ({
+      ...state,
+      activeBuilding: payload.activeBuilding,
     }),
   },
   INIT_STATE,

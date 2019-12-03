@@ -13,7 +13,9 @@ import Button from '../Button/Button';
 import { dijkstra, processLines } from '../../helpers/dijkstra.helper';
 import Path from '../Path/Path';
 import { Colors } from '../../defs/colors';
-import Buildings from '../Buildings/Buildings';
+import Building from '../Building/Building';
+import { IBuilding } from '../../interfaces/IBuilding';
+import Info from '../Info/Info';
 
 const Map: React.FC = () => {
   const lines: IProcessedLine[] = useSelector((state: IGlobalState) => {
@@ -31,6 +33,8 @@ const Map: React.FC = () => {
   });
 
   const dots: IDot[] = useSelector((state: IGlobalState) => state.map.dots);
+
+  const buildings: IBuilding[] = useSelector((state: IGlobalState) => state.map.buildings);
 
   const selectableDots: IDot[] = useSelector((state: IGlobalState) =>
     state.map.dots.filter((dot) => dot.selectable),
@@ -72,6 +76,7 @@ const Map: React.FC = () => {
 
   return (
     <div className="map">
+      <Info />
       <svg viewBox="0 0 400 300" width="800" height="600">
         <defs>
           <linearGradient
@@ -85,6 +90,17 @@ const Map: React.FC = () => {
             <stop offset="0%" stopColor={Colors.BLUE} />
             <stop offset="50%" stopColor={Colors.SKY_BLUE} />
             <stop offset="100%" stopColor={Colors.GREEN} />
+          </linearGradient>
+          <linearGradient
+            id="buildings"
+            x1="0"
+            y1="100%"
+            x2="100%"
+            y2="0"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0%" stopColor={'#a8e063'} />
+            <stop offset="100%" stopColor={'#56ab2f'} />
           </linearGradient>
         </defs>
         {lines.map((line) => (
@@ -110,19 +126,12 @@ const Map: React.FC = () => {
           />
         ))}
         <Path path={activePath} />
-        <Buildings />
+        {/* <Building /> */}
+        {buildings.map((building) => (
+          <Building building={building} key={building.id} />
+        ))}
       </svg>
-      <div>
-        <div>
-          <div />
-          <p>From</p>
-        </div>
-        <div>
-          <div />
-          <p>To</p>
-        </div>
-      </div>
-      <Button onClick={onDijkstraClick}>Dijkstra</Button>
+      <Button onClick={onDijkstraClick}>Проложить путь</Button>
     </div>
   );
 };
