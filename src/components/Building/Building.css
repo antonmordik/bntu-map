@@ -1,7 +1,17 @@
 .building {
   cursor: not-allowed;
+  fill: url('#buildings');
+  transition: .7s;
 }
 
 .clickable {
   cursor: pointer;
+}
+
+.selected {
+  fill: url('#gradient');
+}
+
+.hovered {
+  opacity: .8;
 }

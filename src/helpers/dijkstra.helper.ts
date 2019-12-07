@@ -1,6 +1,14 @@
-export const processLines = (lines: any) => {
-  const result: any = {};
-  lines.forEach((line: any) => {
+import { IProcessedLine } from '../interfaces/ILine';
+
+interface IGraph {
+  [from: string]: {
+    [to: string]: number;
+  };
+}
+
+export const processLines = (lines: IProcessedLine[]): IGraph => {
+  const result: IGraph = {};
+  lines.forEach((line) => {
     result[line.dots[0].id] = result[line.dots[0].id]
       ? { ...result[line.dots[0].id], [line.dots[1].id]: line.distance }
       : { [line.dots[1].id]: line.distance };
@@ -14,9 +22,21 @@ export const processLines = (lines: any) => {
   return result;
 };
 
-export const dijkstra = (graph: any, from: any, to: any): { distance: number; path: string[] } => {
-  const work = { ...graph };
-  const findMin = (work: any) => {
+export const dijkstra = (
+  graph: IGraph,
+  from: string,
+  to: string,
+): { distance: number; path: string[] } => {
+  const work: {
+    [from: string]: {
+      [to: string]: number | boolean | string;
+    };
+  } = { ...graph };
+  const findMin = (work: {
+    [from: string]: {
+      [to: string]: number | boolean | string;
+    };
+  }) => {
     const firstElArr = [];
     for (const key in work) {
       firstElArr.push(work[key].passed ? 1 : 0);
@@ -49,20 +69,20 @@ export const dijkstra = (graph: any, from: any, to: any): { distance: number; pa
           min = null;
           break;
         }
-        if (work[key].length > work[min].length + work[min][key]) {
-          work[key].length = work[min].length + work[min][key];
+        if (work[key].length > (work[min].length as number) + (work[min][key] as number)) {
+          work[key].length = (work[min].length as number) + (work[min][key] as number);
           work[key].prev = min;
         }
       }
     }
   }
   const result = {
-    distance: work[to].length,
+    distance: work[to].length as number,
     path: [to],
   };
   let actual = to;
   while (actual !== from) {
-    actual = work[actual].prev;
+    actual = work[actual].prev as string;
     result.path.push(actual);
   }
   result.path = result.path.reverse();

@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useCallback, useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import './Map.css';
 
@@ -16,14 +16,18 @@ import { Colors } from '../../defs/colors';
 import Building from '../Building/Building';
 import { IBuilding } from '../../interfaces/IBuilding';
 import Info from '../Info/Info';
+import { IError } from '../../interfaces/IError';
+import { loadError } from '../../store/map/actions';
 
 const Map: React.FC = () => {
+  const dispatch = useDispatch();
   const lines: IProcessedLine[] = useSelector((state: IGlobalState) => {
     const dots: IDot[] = state.map.dots;
     return state.map.lines.map((line: ILine) => {
-      const mapped: any = {
+      const mapped: { id: string; dots: IDot[]; distance: number } = {
         id: line.id,
         dots: [],
+        distance: 0,
       };
       mapped.dots[0] = dots.find((dot) => dot.id === line.data.dot1) as IDot;
       mapped.dots[1] = dots.find((dot) => dot.id === line.data.dot2) as IDot;
@@ -44,6 +48,15 @@ const Map: React.FC = () => {
   const [to, setTo] = useState<IDot | null>(null);
   const [activePath, setActivePath] = useState<string | null>(null);
 
+  const inputError: IError | null = useMemo(() => {
+    return from && to
+      ? null
+      : {
+          code: 'Начальная или конечная точка не выбрана.',
+          description: 'Пожалуйста, выберите точки чтобы продолжить.',
+        };
+  }, [from, to]);
+
   const onDotSelect = useCallback(
     (dot: IDot) => {
       setActivePath(null);
@@ -61,6 +74,7 @@ const Map: React.FC = () => {
 
   const onDijkstraClick = useCallback(() => {
     if (from && to) {
+      dispatch(loadError({ error: null }));
       const graph = processLines(lines);
       const result = dijkstra(graph, from.id, to.id);
       const path = result.path
@@ -72,7 +86,7 @@ const Map: React.FC = () => {
         .join(' ');
       setActivePath(path);
     }
-  }, [from, to, lines, dots]);
+  }, [from, to, lines, dots, dispatch]);
 
   return (
     <div className="map">
@@ -126,12 +140,17 @@ const Map: React.FC = () => {
           />
         ))}
         <Path path={activePath} />
-        {/* <Building /> */}
         {buildings.map((building) => (
           <Building building={building} key={building.id} />
         ))}
       </svg>
-      <Button onClick={onDijkstraClick}>Проложить путь</Button>
+      <Button
+        disabled={!from || !to}
+        disabledError={inputError || undefined}
+        onClick={onDijkstraClick}
+      >
+        Проложить путь
+      </Button>
     </div>
   );
 };

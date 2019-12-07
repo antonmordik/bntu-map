@@ -15,5 +15,5 @@ export interface IBuilding {
   rx?: string;
   ry?: string;
   shape: Shapes;
-  clickable?: boolean;
+  selectable?: boolean;
 }

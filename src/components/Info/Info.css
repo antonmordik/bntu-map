@@ -1,6 +1,6 @@
 .info {
-  transition: .5s;
-  height: 200px;
+  transition: .7s;
+  height: 190px;
   display: grid;
   align-items: flex-end;
   justify-content: center;
@@ -19,15 +19,15 @@
 }
 
 .inner {
-  transition: .5s;
+  transition: .7s;
 }
 
 .visible .inner {
   box-sizing: border-box;
-  box-shadow: 0 10px 20px rgba(31, 162, 255, 0.7);
+  box-shadow: 0 10px 20px #1fa2ffb3;
   width: 600px;
-  height: 150px;
-  padding: 20px 40px;
+  height: 140px;
+  padding: 20px;
   border-radius: 10px;
   border: 2px dashed #fff;
 }
@@ -35,8 +35,76 @@
 .invisible .inner {
   box-sizing: border-box;
   width: 600px;
-  height: 150px;
-  padding: 20px 40px;
+  height: 140px;
+  padding: 20px;
   border-radius: 10px;
   border: 2px dashed #000;
+}
+
+.errored {
+  transition: .7s;
+}
+
+.visible .errored {
+  box-sizing: border-box;
+  box-shadow: 0 10px 20px #ff1f41b3;
+  width: 600px;
+  height: 145px;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px dashed #fff;
+}
+
+.invisible .errored {
+  box-sizing: border-box;
+  width: 600px;
+  height: 145px;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px dashed #000;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: .7s;
+}
+
+.invisible .content {
+  opacity: 0;
+}
+
+.visible .content {
+  opacity: 1;
+}
+
+.close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  transition: .7s;
+}
+
+.invisible .close {
+  opacity: 0;
+}
+
+.visible .close {
+  opacity: 1;
+}
+
+.title {
+  font-size: 30px;
+  margin: 0;
+  text-align: left;
+
+}
+
+.address {
+  font-size: 16px;
+  margin: 14px 0 0 0;
+  text-align: left;
+  opacity: .6;
 }
