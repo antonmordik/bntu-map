@@ -7,9 +7,11 @@ import { IGlobalState } from '../../store';
 import { setActiveBuilding, loadError } from '../../store/map/actions';
 
 const Info: React.FC = () => {
-  const activeBuilding = useSelector((state: IGlobalState) => state.map.activeBuilding);
   const dispatch = useDispatch();
+  
+  const activeBuilding = useSelector((state: IGlobalState) => state.map.activeBuilding);
   const error = useSelector((state: IGlobalState) => state.map.error);
+
   const onCloseActiveBuilding = useCallback(() => {
     dispatch(setActiveBuilding({ activeBuilding: null }));
   }, [dispatch]);

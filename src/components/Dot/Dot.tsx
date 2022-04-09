@@ -16,9 +16,7 @@ const Dot: React.FC<IDotProps> = ({ dot, onClick, selected }) => {
       cx={dot.x}
       cy={dot.y}
       r={2}
-      // stroke={'#d2ff00'}
       strokeWidth={1}
-      // fill={'#d2ff00'}
       onClick={onClick}
       className={selected !== Colors.TRANSPARENT ? 'dot-selected' : 'dot'}
     />

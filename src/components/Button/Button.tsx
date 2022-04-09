@@ -6,7 +6,7 @@ import './Button.css';
 import { IError } from '../../interfaces/IError';
 import { loadError, setActiveBuilding } from '../../store/map/actions';
 
-const Button: React.FC<IButtonProps> = ({
+const Button: React.FC<React.PropsWithChildren<IButtonProps>> = ({
   children,
   className,
   disabledError,
@@ -28,7 +28,7 @@ const Button: React.FC<IButtonProps> = ({
   }, [className, isAnimated]);
 
   const onClickDecorator = useCallback(
-    (e) => {
+    (e: React.MouseEvent) => {
       if (disabled) {
         setAnimated(true);
         if (disabledError) {

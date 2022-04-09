@@ -4,14 +4,15 @@ import { useDispatch } from 'react-redux';
 import './App.css';
 
 import Map from './components/Map/Map';
-import { loadDots, loadLines, loadBuildings } from './store/map/actions';
+import firebase from './firebase';
+import { loadDots, loadLines, loadBuildings, loadDotsSuccess, loadLinesSuccess, loadBuildingsSuccess } from './store/map/actions';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(loadDots());
-    dispatch(loadLines());
-    dispatch(loadBuildings());
+    firebase.getDots((dots) => dispatch(loadDotsSuccess({ dots })));
+    firebase.getLines((lines) => dispatch(loadLinesSuccess({ lines })));
+    firebase.getBuildings((buildings) => dispatch(loadBuildingsSuccess({ buildings })));
   });
 
   return (

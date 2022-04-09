@@ -29,8 +29,8 @@ const Map: React.FC = () => {
         dots: [],
         distance: 0,
       };
-      mapped.dots[0] = dots.find((dot) => dot.id === line.data.dot1) as IDot;
-      mapped.dots[1] = dots.find((dot) => dot.id === line.data.dot2) as IDot;
+      mapped.dots[0] = dots.find((dot) => dot.id === line.dot1) as IDot;
+      mapped.dots[1] = dots.find((dot) => dot.id === line.dot2) as IDot;
       mapped.distance = getDistance(mapped.dots[0], mapped.dots[1]);
       return mapped;
     });
